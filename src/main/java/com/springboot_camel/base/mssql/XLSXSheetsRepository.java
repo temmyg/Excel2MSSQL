@@ -4,11 +4,6 @@ import com.springboot_camel.base.excel.SheetHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 @Component("sheetDataRepository")
 public class XLSXSheetsRepository {

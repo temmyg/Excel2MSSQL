@@ -4,7 +4,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Excel2DBRouter extends RouteBuilder{
+public class AnyRouteExample extends RouteBuilder{
     @Override
     public void configure() throws Exception {
         from("file:data?fileName=sampledata.xlsx&noop=true")
@@ -12,3 +12,4 @@ public class Excel2DBRouter extends RouteBuilder{
                 .to("bean:jdbcTemplateBean");
     }
 }
+

@@ -2,11 +2,6 @@ package com.springboot_camel.base.excel;
 
 
 import org.apache.camel.Body;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.sl.draw.binding.ObjectFactory;
 import org.springframework.stereotype.Service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import javax.xml.datatype.DatatypeFactory;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -74,7 +71,11 @@ public class ExcelConverterBean {
             //logger.error("Unable to import Excel invoice", e);
             //throw new RuntimeException("Unable to import Excel invoice", e);
         }
-        return  new SheetHolder();
+
+        SheetHolder result = new SheetHolder();
+        result.sheetData = new ArrayList<HashMap<String, Object>>();
+
+        return  result;
 
     }
 }

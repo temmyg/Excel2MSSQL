@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
+
+    <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" trace="true" autoStartup="true">
+        <route id="RouteA">
+            <from uri="direct:startA"/>
+            <to uri="mock:resultA"/>
+        </route>
+
+        <route id="RouteB" autoStartup="false">
+            <!--<from uri="direct:startB"/>-->
+            <from uri="file:data?fileName=sampledata.xlsx&amp;noop=true" />
+            <to uri="mock:resultB"/>
+            <!--<transform>-->
+                <!--<simple>Hello ${body}</simple>-->
+            <!--</transform>-->
+            <!--<to uri="mock:b"/>-->
+        </route>
+
+        <!--<route id="RouteC" autoStartup="false">-->
+            <!--<from uri="file:data?fileName=sampledata.xlsx&amp;noop=true" />-->
+            <!--<bean beanType="com.springboot_camel.base.excel.ExcelConverterBean" />-->
+            <!--&lt;!&ndash;<to uri="bean:excelConverterBean"/>&ndash;&gt;-->
+            <!--<to uri="mock:resultC" />-->
+        <!--</route>-->
+
+        <route id="RouteD" autoStartup="false">
+            <from uri="direct:startD" />
+            <bean beanType="com.springboot_camel.base.excel.ExcelConverterBean" />
+            <to uri="mock:resultD" />
+        </route>
+    </camelContext>
+
+</beans>
