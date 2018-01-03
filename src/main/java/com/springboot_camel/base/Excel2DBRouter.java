@@ -8,7 +8,7 @@ public class Excel2DBRouter extends RouteBuilder{
     @Override
     public void configure() throws Exception {
         from("file:data?fileName=sampledata.xlsx&noop=true")
-                .to("bean:excelConverterBean")
-                .to("bean:jdbcTemplateBean");
+                .to("bean:excelConverterBean");
+              //  .to("bean:jdbcTemplateBean");
     }
 }

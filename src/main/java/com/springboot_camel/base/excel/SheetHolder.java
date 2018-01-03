@@ -5,4 +5,5 @@ import java.util.ArrayList;
 
 public class SheetHolder {
     public ArrayList<HashMap<String, Object>>  sheetData;
+    public int sheets;
 }

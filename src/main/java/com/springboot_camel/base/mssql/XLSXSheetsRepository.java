@@ -1,6 +1,8 @@
 package com.springboot_camel.base.mssql;
 
 import com.springboot_camel.base.excel.SheetHolder;
+import com.springboot_camel.base.model.ClubMember;
+import com.springboot_camel.base.model.VisitHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ public class XLSXSheetsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public int insertRow(SheetHolder sh) {
+    public int insertRow(Object rowObj) {
 
         /*
          *  Using raw JDBC Sql Server Connection
@@ -41,15 +43,24 @@ public class XLSXSheetsRepository {
          * Below using AutoConfigured DataSource by Spring Boot,
          * this DataSource get a connection from TomCat Connection Pool
          */
-        int rowNum;
+        int rowNum = 0;
         try {
-            String sqlString = "insert into HealthMember (FirstName, LastName, Occupation) values (?, ?, ?)";
-            rowNum = jdbcTemplate.update(sqlString, "Ujin", "Karmonova", "Manager");
+            if(rowObj instanceof ClubMember){
+                String sqlString = "insert into HealthMember (FirstName, LastName, Occupation, Age) values (?, ?, ?, ?)";
+                ClubMember row = (ClubMember) rowObj;
+                rowNum = jdbcTemplate.update(sqlString,  row.getFirstName(), row.getLastName(), row.getOccupation(),
+                        row.getAge());
+            }
+            else if(rowObj instanceof VisitHistory) {
+                String sqlString = "insert into VisitHistory (MemberId, VisitedDate, ExerciseZone) values (?, ?, ?)";
+                VisitHistory row = (VisitHistory) rowObj;
+                rowNum = jdbcTemplate.update(sqlString,  row.getMemberId(), row.getVisitedDate(), row.getExerciseZone());
+            }
         }
         catch (Exception e) {
             throw e;
         }
-        System.out.println("done!!");
+
         return rowNum;
     }
 }

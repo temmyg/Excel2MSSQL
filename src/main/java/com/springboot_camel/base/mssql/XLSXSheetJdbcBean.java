@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("jdbcTemplateBean")
 public class XLSXSheetJdbcBean {
 
@@ -13,10 +15,10 @@ public class XLSXSheetJdbcBean {
     @Qualifier("sheetDataRepository")
     private XLSXSheetsRepository repository;
 
-    public int insertRows(@Body SheetHolder sheetRows){
-        int num;
+    public int insertRows(@Body Object rowData){
+        int num = 0;
         try {
-            num = repository.insertRow(sheetRows);
+            num = repository.insertRow(rowData);
         }
         catch (Exception e) {
             throw e;
