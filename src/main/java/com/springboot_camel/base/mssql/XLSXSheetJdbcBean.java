@@ -15,7 +15,7 @@ public class XLSXSheetJdbcBean {
     @Qualifier("sheetDataRepository")
     private XLSXSheetsRepository repository;
 
-    public int insertRows(@Body Object rowData){
+    public int insertRows(@Body Object rowData) throws Exception {
         int num = 0;
         try {
             num = repository.insertRow(rowData);

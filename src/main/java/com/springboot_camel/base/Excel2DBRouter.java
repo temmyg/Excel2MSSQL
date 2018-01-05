@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 public class Excel2DBRouter extends RouteBuilder{
     @Override
     public void configure() throws Exception {
-        from("file:data?fileName=sampledata.xlsx&noop=true")
+       // from("file:data?fileName=sampledata.xlsx&noop=true")
+        from("file:data?fileName=sampledata.xlsx")
                 .to("bean:excelConverterBean");
               //  .to("bean:jdbcTemplateBean");
     }

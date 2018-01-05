@@ -13,7 +13,7 @@ public class XLSXSheetsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public int insertRow(Object rowObj) {
+    public int insertRow(Object rowObj) throws Exception   {
 
         /*
          *  Using raw JDBC Sql Server Connection

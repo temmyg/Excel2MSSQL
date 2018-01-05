@@ -25,16 +25,17 @@ public class ExcelConverterBean {
     public void readExcelSheets (@Body InputStream body, Message requestMessage) throws Exception{  //@Body InputStream body
 
         ProducerTemplate pt = requestMessage.getExchange().getContext().createProducerTemplate();
-        
+
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(body);
             Iterator shtItr = workbook.sheetIterator();
-
+            logger.info(logger.getClass());
+            logger.info("sheet Count:" + workbook.getNumberOfSheets());
             XSSFSheet sheet = null;
-            for(int shtIndex=0; shtItr.hasNext() && (sheet = (XSSFSheet)shtItr.next()).getPhysicalNumberOfRows()!=0; shtIndex++){
+            for (int shtIndex = 0; shtItr.hasNext() && (sheet = (XSSFSheet) shtItr.next()).getPhysicalNumberOfRows() != 0; shtIndex++) {
 
-                  boolean headersFound = false;
-              //  List<Object> rows = new ArrayList<>();
+                boolean headersFound = false;
+                //  List<Object> rows = new ArrayList<>();
                 for (Iterator rit = sheet.rowIterator(); rit.hasNext(); ) {
                     XSSFRow row = (XSSFRow) rit.next();
                     if (!headersFound) {  // Skip the first row with column headers
@@ -46,29 +47,29 @@ public class ExcelConverterBean {
 //                    for (Iterator cit = row.cellIterator(); cit.hasNext(); ++colNum) {
 //                        XSSFCell cell = (XSSFCell) cit.next();
 
-                        if (headersFound) {
-                            Object rowData = null;
-                            switch (shtIndex){
-                                case 0:
-                                    ClubMember member = new ClubMember();
-                                    member.setAge((int)row.getCell(3).getNumericCellValue());
-                                    member.setFirstName(row.getCell(0).getStringCellValue());
-                                    member.setLastName(row.getCell(1).getStringCellValue());
-                                    member.setOccupation(row.getCell(2).getStringCellValue());
-                                    rowData = member;
-                                    break;
-                                case 1:
-                                    VisitHistory record = new VisitHistory();
-                                    record.setExerciseZone(row.getCell(2).getStringCellValue());
-                                    record.setVisitedDate(new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-                                            .parse(row.getCell(1).getStringCellValue()));
-                                    record.setMemberId((long)row.getCell(0).getNumericCellValue());
-                                    rowData = record;
+                    if (headersFound) {
+                        Object rowData = null;
+                        switch (shtIndex) {
+                            case 0:
+                                ClubMember member = new ClubMember();
+                                member.setAge((int) row.getCell(3).getNumericCellValue());
+                                member.setFirstName(row.getCell(0).getStringCellValue());
+                                member.setLastName(row.getCell(1).getStringCellValue());
+                                member.setOccupation(row.getCell(2).getStringCellValue());
+                                rowData = member;
+                                break;
+                            case 1:
+                                VisitHistory record = new VisitHistory();
+                                record.setExerciseZone(row.getCell(2).getStringCellValue());
+                                record.setVisitedDate(new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                                        .parse(row.getCell(1).getStringCellValue()));
+                                record.setMemberId((long) row.getCell(0).getNumericCellValue());
+                                rowData = record;
 
-                                    break;
-                                default:
-                                    break;
-                            }
+                                break;
+                            default:
+                                break;
+                        }
 //                        }
 //                            switch (colNum) {
 //                                case 0: // Date
@@ -97,14 +98,14 @@ public class ExcelConverterBean {
 //                                    break;
 //                            }
 
-                            pt.sendBody("bean:jdbcTemplateBean", rowData);
+                        pt.sendBody("bean:jdbcTemplateBean", rowData);
                     }
                 }
 
             }
         } catch (Exception e) {
-            logger.error("Unable to import Excel invoice", e);
-            throw new RuntimeException("Unable to import Excel invoice", e);
+            logger.error("Unable to import Excel sheet", e);
+            throw new RuntimeException("Unable to import Excel Sheet", e);
         }
         System.out.println("done!!");
 
