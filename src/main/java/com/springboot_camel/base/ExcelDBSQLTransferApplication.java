@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-public class ExcelDBSQLTransferApplication implements CommandLineRunner  {
+public class ExcelDBSQLTransferApplication /*implements CommandLineRunner*/  {
 
-	@Produce(uri="direct:start")
-	ProducerTemplate startPt;
+//	@Produce(uri="direct:start")
+//	ProducerTemplate startPt;
 
 	public static void main(String[] args) {
 		System.out.println("Hello Camel from Spring Boot!!");
@@ -23,7 +23,7 @@ public class ExcelDBSQLTransferApplication implements CommandLineRunner  {
 		applicationController.blockMainThread();
 	}
 
-	 public void run(String... args){
-		startPt.sendBody("fasfa");
-	}
+//	 public void run(String... args){
+//		startPt.sendBody("fasfa");
+//	}
 }
