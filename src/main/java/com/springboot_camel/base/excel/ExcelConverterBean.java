@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.*;
 @Service("excelConverterBean")
 public class ExcelConverterBean {
     private final static Log logger = LogFactory.getLog(ExcelConverterBean.class);
+    private String fileType = "Excel";
 
     public void readExcelSheets (Message requestMessage, Exchange exchange, @Body InputStream body) throws Exception{  //@Body InputStream body
 
