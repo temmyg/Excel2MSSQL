@@ -65,15 +65,29 @@ public class Excel2SQLDBApplicationTest
 
 	@Test
 	public void basicTest() throws Exception {
-		mockEndpointA.setExpectedMessageCount(2);
-		mockEndpointA.expectedBodiesReceived("HelloWorld");
+		mockEndpointA.setExpectedMessageCount(1);
+	//	mockEndpointA.expectedBodiesReceived("HelloWorld");
 
-		startEndpointA.sendBody("HelloWorld 1");
+		Object response = startEndpointA.requestBody("HelloWorld 1");
 
+		//startEndpointA.sendBody("HelloWorld 1");
+		// startEndpointA.sendBody("HelloWorld 2");
 		//List<Exchange> ex = mockEndpointA.getExchanges();
 
 		//MockEndpoint.assertIsSatisfied(camelContext);
 		mockEndpointA.assertIsSatisfied();
+	}
+
+	@Test
+	public void HandledResponseToCalledTest() throws Exception{
+
+		//mockEndpointA.setExpectedMessageCount(1);
+		camelContext.startRoute("expceptionHandledRoute");
+		ProducerTemplate pt = camelContext.createProducerTemplate();
+		Object response = pt.requestBody("direct:start1", "HelloWorld 1");
+
+		assertEquals("Error Happened", response.toString());
+
 	}
 
 	@Test

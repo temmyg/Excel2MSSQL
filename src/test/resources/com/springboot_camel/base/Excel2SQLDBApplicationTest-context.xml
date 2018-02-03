@@ -6,10 +6,36 @@
 		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
 
+    <bean id="excelConverterBean" class="com.springboot_camel.base.excel.ExcelConverterBean"></bean>
+    <bean id="testStrategy1" class="com.springboot_camel.base.TestStrategy1"></bean>
+    <bean id="testBean1" class="com.springboot_camel.base.TestBean1"></bean>
+
     <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" trace="true" autoStartup="true">
         <route id="RouteA">
             <from uri="direct:startA"/>
+            <!--<pollEnrich strategyRef="testStrategy1" strategyMethodName="aggregate"> &lt;!&ndash;  &ndash;&gt;-->
+                <!--<simple>file:data?fileName=mostspace.txt</simple>-->
+            <!--</pollEnrich>-->
+            <!--<enrich strategyRef="testStrategy1" strategyMethodName="aggregate">-->
+                <!--<simple>file:data?fileName=mostspace.txt</simple>-->
+            <!--</enrich>-->
+            <to uri="bean:excelConverterBean" />
             <to uri="mock:resultA"/>
+        </route>
+
+        <route id="expceptionHandledRoute" autoStartup="false">
+            <from uri="direct:start1"/>
+            <onException>
+                <exception>java.lang.Exception</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <transform>
+                    <constant>Error Happened</constant>
+                </transform>
+            </onException>
+            <to uri="bean:testBean1"></to>
+            <to uri="mock:result1"></to>
         </route>
 
         <route id="RouteB" autoStartup="false">
